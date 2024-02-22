@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <title>Tienda de Gomitas</title>
+    <style>
+        /* Adjust the width of the left reveal menu. */
+#demo-page #left-panel.ui-panel {
+    width: 15em;
+}
+
+#demo-page #left-panel.ui-panel-closed {
+    width: 0;
+}
+
+#demo-page .ui-panel-page-content-position-left,
+.ui-panel-dismiss-open.ui-panel-dismiss-position-left {
+    left: 15em;
+    right: -15em;
+}
+
+#demo-page .ui-panel-animate.ui-panel-page-content-position-left.ui-panel-page-content-display-reveal {
+    left: 0;
+    right: 0;
+    -webkit-transform: translate3d(15em, 0, 0);
+    -moz-transform: translate3d(15em, 0, 0);
+    transform: translate3d(15em, 0, 0);
+}
+
+/* Listview with collapsible list items. */
+.ui-listview>li .ui-collapsible-heading {
+    margin: 0;
+}
+
+.ui-collapsible.ui-li-static {
+    padding: 0;
+    border: none !important;
+}
+
+.ui-collapsible+.ui-collapsible>.ui-collapsible-heading>.ui-btn {
+    border-top: none !important;
+}
+
+/* Nested list button colors */
+.ui-listview .ui-listview .ui-btn {
+    background: #fff;
+}
+
+.ui-listview .ui-listview .ui-btn:hover {
+    background: #f5f5f5;
+}
+
+.ui-listview .ui-listview .ui-btn:active {
+    background: #f1f1f1;
+}
+
+/* Reveal panel shadow on top of the listview menu (only to be used if you don't use fixed toolbars) */
+#demo-page .ui-panel-display-reveal {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+#demo-page .ui-panel-page-content-position-left {
+    -webkit-box-shadow: -5px 0px 5px rgba(0, 0, 0, .15);
+    -moz-box-shadow: -5px 0px 5px rgba(0, 0, 0, .15);
+    box-shadow: -5px 0px 5px rgba(0, 0, 0, .15);
+}
+
+/* Setting a custom background image. */
+#demo-page.ui-page-theme-a,
+#demo-page .ui-panel-wrapper {
+    background-color: #fff;
+    background-repeat: repeat-x;
+    background-position: left bottom;
+}
+
+/* Styling of the page contents */
+.article p {
+    margin: 0 0 1em;
+    line-height: 1.5;
+}
+
+.article p img {
+    max-width: 100%;
+}
+
+.article p:first-child {
+    text-align: center;
+}
+
+.article small {
+    display: block;
+    font-size: 75%;
+    color: #c0c0c0;
+}
+
+.article p:last-child {
+    text-align: right;
+}
+
+.article h2{
+    text-align: right;
+}
+
+.article a.ui-btn {
+    margin-right: 2em;
+}
+
+
+@media all and (min-width:769px) {
+    .article {
+        max-width: 994px;
+        margin: 0 auto;
+        padding-top: 4em;
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+        -webkit-column-gap: 2em;
+        -moz-column-gap: 2em;
+        column-gap: 2em;
+    }
+
+}
+    </style>
+</head>
+
+<body>
+    <div data-role="page" id="index">
+        <div data-role="header" style="overflow:hidden;" data-theme="b">
+            <h1>Gummy Loves</h1>
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#vista" data-icon="shop">Encuentra todos</a></li>
+                    <li><a href="#index" data-icon="home">Home</a></li>
+                    <li><a href="#edicion" data-icon="user">Edita tus respuestas</a></li>
+                </ul>
+            </div><!-- /navbar -->
+        </div><!-- /header -->
+        <div data-role="content">
+            <div role="main" class="ui-content">
+                <div class="article">
+                    <img src="data:image/jpeg;base64,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"
+                    alt="Gummys">
+                    <h2>Gomitas</h2>
+                    <p>¡Bienvenidos a nuestro mundo de deliciosas gomitas! En nuestro sitio web, te sumergirás en una
+                        experiencia única llena de sabores irresistibles y texturas jugosas que deleitarán tu paladar.
+                        ¡Descubre la magia de las gomitas y deja que tus sentidos se despierten con cada mordisco! 
+                        Encontrarás una amplia variedad de opciones que se adaptan a todos los gustos y preferencias.
+                        Desde las clásicas gomitas de frutas hasta las más innovadoras con rellenos sorprendentes,
+                        estamos seguros de que hallarás la combinación perfecta para satisfacer tu antojo dulce.</p>
+                </div><!-- /article -->
+                <a href="#popupParis" data-rel="popup" data-position-to="window" data-transition="fade"><img
+                        class="popphoto" src="https://chedrauimx.vtexassets.com/arquivos/ids/25956886-800-auto?v=638423574315570000&width=800&height=auto&aspect=true" alt="Gomitas de bolita" style="width:30%"></a>
+                <a href="#popupSydney" data-rel="popup" data-position-to="window" data-transition="fade"><img
+                        class="popphoto" src="https://www.zeromarket.mx/wp-content/uploads/2023/05/AD36.1.jpg" alt="Gomitas de fruta" style="width:30%"></a>
+                <a href="#popupNYC" data-rel="popup" data-position-to="window" data-transition="fade"><img
+                        class="popphoto" src="https://m.media-amazon.com/images/I/6196OjuIyyL._SL1500_.jpg" alt="gomitas de sandia" style="width:30%"></a>
+                <div data-role="popup" id="popupParis" data-overlay-theme="b" data-theme="b" data-corners="false">
+                         <a href="#" data-rel="back"
+                        class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete         ui-btn-icon-notext ui-btn-right">Close</a><img
+                        class="popphoto" src="https://chedrauimx.vtexassets.com/arquivos/ids/25956886-800-auto?v=638423574315570000&width=800&height=auto&aspect=true" style="max-height:500px;" alt="Gomitas de bolita">
+                </div>
+                <div data-role="popup" id="popupSydney" data-overlay-theme="b" data-theme="b" data-corners="false">
+                        <a href="#" data-rel="back"
+                        class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a><img
+                        class="popphoto" src="https://www.zeromarket.mx/wp-content/uploads/2023/05/AD36.1.jpg" style="max-height:512px;"
+                        alt="Gomitas de fruta">
+                </div>
+                <div data-role="popup" id="popupNYC" data-overlay-theme="b" data-theme="b" data-corners="false">
+                        <a href="#" data-rel="back"
+                        class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a><img
+                        class="popphoto" src="https://m.media-amazon.com/images/I/6196OjuIyyL._SL1500_.jpg" style="max-height:512px;" alt="gomitas de sandia">
+                </div>
+
+                <h2>Aqui te mostraremos una tabla de como estan presentes las gomitas en los países:</h2>
+
+                <table data-role="table" id="table-custom-2" data-mode="columntoggle"
+                    class="ui-body-d ui-shadow table-stripe ui-responsive" data-column-btn-theme="b"
+                    data-column-btn-text="Columns to display..." data-column-popup-theme="a">
+                    <thead>
+                        <tr class="ui-bar-d">
+                            <th data-priority="2">Rank</th>
+                            <th>País</th>
+                            <th data-priority="1">Rating</th>
+                            <th data-priority="3">Gomitas Populares</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>1</th>
+                            <td>Estados Unidos</td>
+                            <td>95%</td>
+                            <td>Gomitas Supreme</td>
+                        </tr>
+                        <tr>
+                            <th>2</th>
+                            <td>Alemania</td>
+                            <td>92%</td>
+                            <td>Gomitas Deliciosas</td>
+                        </tr>
+                        <tr>
+                            <th>3</th>
+                            <td>Japón</td>
+                            <td>90%</td>
+                            <td>Gomitas Originales</td>
+                        </tr>
+                        <tr>
+                            <th>4</th>
+                            <td>Brasil</td>
+                            <td>88%</td>
+                            <td>Gomitas Tropicales</td>
+                        </tr>
+                        <tr>
+                            <th>5</th>
+                            <td>Francia</td>
+                            <td>87%</td>
+                            <td>Gomitas de Manzana</td>
+                        </tr>
+                        <tr>
+                            <th>6</th>
+                            <td>Italia</td>
+                            <td>85%</td>
+                            <td>Gomitas de Piña</td>
+                        </tr>
+                        <tr>
+                            <th>7</th>
+                            <td>México</td>
+                            <td>82%</td>
+                            <td>Gomitas Picantes</td>
+                        </tr>
+                        <tr>
+                            <th>8</th>
+                            <td>Canadá</td>
+                            <td>80%</td>
+                            <td>Gomitas de Arce</td>
+                        </tr>
+                        <tr>
+                            <th>9</th>
+                            <td>India</td>
+                            <td>78%</td>
+                            <td>Gomitas Exóticas</td>
+                        </tr>
+                        <tr>
+                            <th>10</th>
+                            <td>Australia</td>
+                            <td>75%</td>
+                            <td>Gomitas Koala</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h2>¿Conoces alguna gomita diferente?</h2>
+                <p>Deja aqui abajo en este formulario de que tipo seria tu gomita favorita y como serian sus datos</p>
+
+                <form action="/" method="POST">
+                    <input type="text" name="barcode" id="txt_barcode" placeholder="Su codigo de Barras" value="">
+
+                    <input type="text" name="description" id="txt_description" placeholder="Su descripcion" value="">
+                    <input type="text" name="price" id="txt_price" placeholder="su precio" value="">
+
+                    <input type="submit" value="Guardar">
+                </form>
+            </div>
+
+        
+        </div><!-- /content -->
+        <div data-role="footer" data-theme="b">
+            <h5>Desarrollado por Kali Uchis</h5>
+            </div>
+        
+    </div>
+
+    <div data-role="page" id="vista">
+        <div data-role="header" style="overflow:hidden;" data-theme="b">
+            <h1>Gummy Loves</h1>
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#vista" data-icon="shop">Encarga las Tuyas</a></li>
+                    <li><a href="#index" data-icon="home">Home</a></li>
+                    <li><a href="#edicion" data-icon="user">Edita tus respuestas</a></li>
+                </ul>
+            </div><!-- /navbar -->
+        </div><!-- /header -->
+        <div data-role="content">
+        <form>
+            <input data-type="search" id="searchForCollapsibleSet">
+        </form>
+        <div data-role="collapsibleset" data-filter="true" data-inset="true" id="collapsiblesetForFilter"
+                data-input="#searchForCollapsibleSet">
+                <% products.forEach((product)=>{ %>
+                    <div data-role="collapsible" data-filtertext="<%= product.description%>">
+                        <h3><%= product.description%></h3>
+                        <ul data-role="listview" data-inset="false">
+                            <li>Codigo de Barras: <%= product.barcode%></li>
+                            <li>Descripcion: <%= product.description%></li>
+                            <li>Precio de compra: <%= product.price%></li>
+                            
+                            <!-- <li><a href="<%= product.barcode%>" class="ui-btn">Editar</a></li> -->
+                            <!-- <li><a href="/eliminar/<%= product.barcode%>" class="ui-btn ui-btn-b">Eliminar</a> -->
+                            </li>
+                        </ul>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+        <div data-role="footer" data-theme="b">
+                <h5>Desarrollado por Kali Uchis</h5>
+        </div>
+        </div>
+
+        <div data-role="page" id="edicion">
+            <div data-role="header" style="overflow:hidden;" data-theme="b">
+                <h1>Gummy Loves</h1>
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#vista" data-icon="shop">Encarga las Tuyas</a></li>
+                        <li><a href="#index" data-icon="home">Home</a></li>
+                        <li><a href="#edicion" data-icon="user">Edita tus respuestas</a></li>
+                    </ul>
+                </div><!-- /navbar -->
+            </div><!-- /header -->
+            <div data-role="content">
+            <div data-role="collapsibleset" data-filter="true" data-inset="true" id="collapsiblesetForFilter"
+                    data-input="#searchForCollapsibleSet">
+                    <% products.forEach((product)=>{ %>
+                        <div data-role="collapsible" data-filtertext="<%= product.description%>">
+                            <h3><%= product.description%></h3>
+                            <ul data-role="listview" data-inset="false">
+                                <li>Codigo de Barras: <%= product.barcode%></li>
+                                <li>Precio de compra: <%= product.price%></li>
+                        
+                                <li><a href="<%= product.barcode%>" class="ui-btn">Editar</a></li>
+                                <li><a href="/eliminar/<%= product.barcode%>" class="ui-btn">Eliminar</a>
+                                </li>
+                            </ul>
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+            <div data-role="footer" data-theme="b">
+                    <h5>Desarrollado por Kali Uchis</h5>
+            </div>
+            </div>
+</body>
+
+</html>
